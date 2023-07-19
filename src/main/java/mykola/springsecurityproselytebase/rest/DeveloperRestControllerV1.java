@@ -4,15 +4,17 @@ import mykola.springsecurityproselytebase.model.Developer;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/v1/developers")
 public class DeveloperRestControllerV1 {
-    private final List<Developer> DEVELOPERS = List.of(
+    private final List<Developer> DEVELOPERS = Stream.of(
             new Developer(1L, "Ivan", "Ivanov"),
             new Developer(2L, "Kolya", "Ivanov"),
             new Developer(3L, "Sergey", "Sergeev")
-    );
+    ).collect(Collectors.toList());
 
     @GetMapping
     public List<Developer> getAll() {
@@ -26,15 +28,19 @@ public class DeveloperRestControllerV1 {
                 .findFirst()
                 .orElse(new Developer(1000L,"User","NotFound"));
     }
-    @PostMapping()
+    @PostMapping
     public Developer create(@RequestBody Developer developer){
         this.DEVELOPERS.add(developer);
         return developer;
     }
 
+//    @DeleteMapping("/{id}")
+//    public void deleteById(@PathVariable Long id){
+//        this.DEVELOPERS.removeIf(dev->dev.getId().equals(id));
+//
+//    }
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id){
-        this.DEVELOPERS.removeIf(dev->dev.getId().equals(id));
-
+    public void deleteById(@PathVariable Long id) {
+        this.DEVELOPERS.removeIf(developer -> developer.getId().equals(id));
     }
 }
