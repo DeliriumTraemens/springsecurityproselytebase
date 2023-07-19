@@ -27,6 +27,6 @@ public class DeveloperRestControllerV1 {
         return DEVELOPERS.stream()
                 .filter(developer -> developer.getId().equals(id))
                 .findFirst()
-                .orElse(null);
+                .orElse(new Developer(1000L,"User","NotFound"));
     }
 }
